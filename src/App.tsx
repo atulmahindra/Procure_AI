@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 
 import { Login } from './modules/before-login/Login'
+import { CompareQuotations } from './modules/after-login/CompareQuotations.tsx'
+import { Analytics } from './modules/after-login/Procure-AI/Analytics'
 import { Upload } from './modules/after-login/Upload.tsx'
 import './styles/common.css'
 
@@ -36,7 +38,15 @@ function App() {
   }
 
   if (path === '/upload') {
-    return <Upload userName={userName ?? 'Procurement User'} onLogout={handleLogout} />
+    return <Upload userName={userName ?? 'Procurement User'} onLogout={handleLogout} onCompare={() => navigate('/compare-quotations')} />
+  }
+
+  if (path === '/compare-quotations') {
+    return <CompareQuotations userName={userName ?? 'Procurement User'} onLogout={handleLogout} onBack={() => navigate('/upload')} onProceed={() => navigate('/procure-ai')} />
+  }
+
+  if (path === '/procure-ai') {
+    return <Analytics onBack={() => navigate('/upload')} />
   }
 
   if (path !== '/login') {

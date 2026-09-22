@@ -6,6 +6,7 @@ import './Upload.scss'
 type UploadProps = {
   userName: string
   onLogout: () => void
+  onCompare: () => void
 }
 
 type UploadedFile = {
@@ -19,7 +20,7 @@ const starterFiles: UploadedFile[] = [
   { name: 'Vortex_Equipments_Quotation.pdf', size: '3.8 MB' },
 ]
 
-export function Upload({ userName, onLogout }: UploadProps) {
+export function Upload({ userName, onLogout, onCompare }: UploadProps) {
   const inputRef = useRef<HTMLInputElement>(null)
   const [files, setFiles] = useState<UploadedFile[]>(starterFiles)
   const [isDragging, setIsDragging] = useState(false)
@@ -65,7 +66,7 @@ export function Upload({ userName, onLogout }: UploadProps) {
           <section className="files-card"><div className="files-heading"><h2>Uploaded files</h2><strong>{files.length} of 20</strong></div><div className="file-list">{files.map((file, index) => <div className="file-row" key={`${file.name}-${index}`}><span className="file-icon">□</span><div><p>{file.name}</p><small>{file.size} · <b>Ready</b></small></div><button onClick={() => removeFile(index)} aria-label={`Remove ${file.name}`}>♧</button></div>)}</div><p className="files-success"><span>✓</span> All files passed security and format checks.</p></section>
         </div>
 
-        <div className="upload-footer"><p>Tip: Include at least two supplier quotations for a meaningful comparison.</p><div><button className="save-button" type="button">Save draft</button><button className="process-button" type="button" disabled={files.length < 2}>✣ &nbsp; Process &amp; compare quotations</button></div></div>
+        <div className="upload-footer"><p>Tip: Include at least two supplier quotations for a meaningful comparison.</p><div><button className="save-button" type="button">Save draft</button><button className="process-button" type="button" disabled={files.length < 2} onClick={onCompare}>✣ &nbsp; Process &amp; compare quotations</button></div></div>
       </section>
     </main>
   )
