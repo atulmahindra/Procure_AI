@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
-import type { ChangeEvent } from 'react'
+import type { ChangeEvent, DragEvent } from 'react'
+import { AuthenticatedHeader } from '../shared/AuthenticatedHeader'
 import './Upload.scss'
 
 type UploadProps = {
@@ -7,22 +8,64 @@ type UploadProps = {
   onLogout: () => void
 }
 
+type UploadedFile = {
+  name: string
+  size: string
+}
+
+const starterFiles: UploadedFile[] = [
+  { name: 'Apex_Industrial_RFQ_2026-A.pdf', size: '2.4 MB' },
+  { name: 'Zenith_Controls_Commercial_Quote.xlsx', size: '1.1 MB' },
+  { name: 'Vortex_Equipments_Quotation.pdf', size: '3.8 MB' },
+]
+
 export function Upload({ userName, onLogout }: UploadProps) {
   const inputRef = useRef<HTMLInputElement>(null)
-  const [fileName, setFileName] = useState('')
+  const [files, setFiles] = useState<UploadedFile[]>(starterFiles)
   const [isDragging, setIsDragging] = useState(false)
-  const firstName = userName.split(' ')[0]
+
+  function addFiles(fileList: FileList | null) {
+    if (!fileList?.length) return
+    const incoming = Array.from(fileList).map((file) => ({
+      name: file.name,
+      size: `${(file.size / (1024 * 1024)).toFixed(1)} MB`,
+    }))
+    setFiles((current) => [...current, ...incoming].slice(0, 20))
+  }
 
   function selectFile(event: ChangeEvent<HTMLInputElement>) {
-    setFileName(event.target.files?.[0]?.name ?? '')
+    addFiles(event.target.files)
+    event.target.value = ''
+  }
+
+  function dropFiles(event: DragEvent<HTMLButtonElement>) {
+    event.preventDefault()
+    setIsDragging(false)
+    addFiles(event.dataTransfer.files)
+  }
+
+  function removeFile(index: number) {
+    setFiles((current) => current.filter((_, fileIndex) => fileIndex !== index))
   }
 
   return (
     <main className="upload-page">
-      <header className="upload-header"><div className="upload-logo"><div className="brand-mark">P</div><span>procure<span>flow</span></span></div><div className="upload-header-actions"><button className="help-button">? <span>Help center</span></button><div className="user-menu"><div className="avatar">{userName.split(' ').map((part) => part[0]).join('').slice(0, 2)}</div><div className="user-details"><strong>{userName}</strong><small>Administrator</small></div><button className="logout-button" onClick={onLogout}>Log out</button></div></div></header>
-      <section className="upload-content"><div className="upload-intro"><div><p className="eyebrow">Document center</p><h1>Upload your documents</h1><p>Hi {firstName}, add a file and we’ll organize the important details for you.</p></div><div className="step-indicator"><span className="active">1</span><i /><span>2</span><i /><span>3</span></div></div>
-        <div className="upload-card"><div className="card-heading"><div><h2>Start with a document</h2><p>Upload a purchase order, invoice, or vendor agreement.</p></div><span className="secure-badge">⌁ Secure upload</span></div><button className={`drop-zone ${isDragging ? 'is-dragging' : ''}`} onClick={() => inputRef.current?.click()} onDragOver={(event) => { event.preventDefault(); setIsDragging(true) }} onDragLeave={() => setIsDragging(false)} onDrop={(event) => { event.preventDefault(); setIsDragging(false); setFileName(event.dataTransfer.files[0]?.name ?? '') }}><input ref={inputRef} type="file" onChange={selectFile} accept=".pdf,.doc,.docx,.xls,.xlsx,.csv" hidden /><span className="upload-icon">↑</span><strong>{fileName || 'Drop your file here'}</strong><span>{fileName ? 'Ready to process' : 'or click to browse from your computer'}</span><small>PDF, DOCX, XLSX, or CSV · Max 25 MB</small></button>{fileName && <div className="selected-file"><span>▤</span><div><strong>{fileName}</strong><small>Ready for upload</small></div><button onClick={() => setFileName('')} aria-label="Remove selected file">×</button></div>}<button className="continue-button" disabled={!fileName} onClick={() => setFileName('')}>Upload and continue <span>→</span></button></div>
-        <div className="upload-tips"><div><span>✦</span><div><strong>Smart extraction</strong><p>We’ll identify totals, dates, vendors, and line items automatically.</p></div></div><div><span>◉</span><div><strong>Your data stays private</strong><p>Files are encrypted in transit and at rest.</p></div></div></div>
+      <AuthenticatedHeader userName={userName} onLogout={onLogout} />
+
+      <section className="upload-content">
+        <nav className="upload-steps" aria-label="Quotation workflow"><div className="upload-step done"><span>1</span><strong>Sign in</strong></div><i /><div className="upload-step active"><span>2</span><strong>Upload quotations</strong></div><i /><div className="upload-step"><span>3</span><strong>AI recommendation</strong></div></nav>
+        <div className="upload-intro"><div><p className="eyebrow">New comparison · RFQ-2026-A</p><h1>Upload supplier quotations</h1><p>Add all quotations you want Procure.AI to normalize and compare.</p></div><span className="files-ready">{files.length} files ready</span></div>
+
+        <div className="upload-grid">
+          <section className="upload-card">
+            <button className={`drop-zone ${isDragging ? 'is-dragging' : ''}`} onClick={() => inputRef.current?.click()} onDragOver={(event) => { event.preventDefault(); setIsDragging(true) }} onDragLeave={() => setIsDragging(false)} onDrop={dropFiles}><input ref={inputRef} type="file" onChange={selectFile} accept=".pdf,.doc,.docx,.xls,.xlsx,.csv" multiple hidden /><span className="upload-icon">⌃</span><strong>Drag and drop quotations here</strong><span>PDF, XLSX, XLS, CSV or DOCX · Up to 20 MB each · Maximum 20 files</span><span className="browse-button">▱ &nbsp; Browse files</span></button>
+            <p className="security-note"><span>♧</span> Files are encrypted in transit and used only for this comparison.</p>
+          </section>
+
+          <section className="files-card"><div className="files-heading"><h2>Uploaded files</h2><strong>{files.length} of 20</strong></div><div className="file-list">{files.map((file, index) => <div className="file-row" key={`${file.name}-${index}`}><span className="file-icon">□</span><div><p>{file.name}</p><small>{file.size} · <b>Ready</b></small></div><button onClick={() => removeFile(index)} aria-label={`Remove ${file.name}`}>♧</button></div>)}</div><p className="files-success"><span>✓</span> All files passed security and format checks.</p></section>
+        </div>
+
+        <div className="upload-footer"><p>Tip: Include at least two supplier quotations for a meaningful comparison.</p><div><button className="save-button" type="button">Save draft</button><button className="process-button" type="button" disabled={files.length < 2}>✣ &nbsp; Process &amp; compare quotations</button></div></div>
       </section>
     </main>
   )

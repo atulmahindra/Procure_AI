@@ -1,0 +1,5 @@
+.authenticated-header { display: flex; align-items: center; justify-content: space-between; height: 63px; padding: 0 clamp(28px, 4.5vw, 52px); border-bottom: 1px solid #edf0f6; background: #fff; }
+.authenticated-logo { margin: 0; color: #101116; font-size: 1.0625rem; font-weight: 800; letter-spacing: -.025em; }.authenticated-logo span { color: #ed1b2f; }
+.authenticated-header-actions { display: flex; align-items: center; gap: 18px; }.team-name { color: #343947; font-size: .6875rem; font-weight: 600; }.help-button, .user-avatar { display: grid; place-items: center; border: 1px solid #e4e8f1; border-radius: 50%; color: #7d89a0; background: #fff; font: inherit; font-size: .6875rem; }.help-button { width: 30px; height: 30px; }.user-avatar { width: 30px; height: 30px; border: 0; color: #fff; background: #ed1b3a; font-size: .5625rem; font-weight: 800; cursor: pointer; }
+@media (max-width: 760px) { .team-name { display: none; } }
+@media (max-width: 480px) { .authenticated-header { padding: 0 20px; } }

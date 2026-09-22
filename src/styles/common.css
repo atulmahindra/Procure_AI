@@ -1,7 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Georama:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
-:root { --primary: #2457e6; --ink: #172033; --muted: #7b8496; --surface: #f7f8fa; --line: #e7eaf0; font-family: 'Georama', sans-serif; color: var(--ink); background: var(--surface); font-synthesis: none; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; }
+:root { --primary: #2457e6; --ink: #172033; --muted: #7b8496; --surface: #f7f8fa; --line: #e7eaf0; font-family: 'Georama', sans-serif; font-weight: 400; color: var(--ink); background: var(--surface); font-synthesis: none; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; }
+html { font-size: clamp(87.5%, calc(80% + .35vw), 100%); }
 * { box-sizing: border-box; }
 body { min-width: 320px; margin: 0; }
 button, input { font-family: inherit; }
