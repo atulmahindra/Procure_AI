@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import { Login } from './modules/before-login/Login'
-import { Upload } from './modules/after-login/Upload'
+import { Upload } from './modules/after-login/Upload.tsx'
 import './styles/common.css'
 
 function App() {
