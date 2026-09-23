@@ -1,4 +1,5 @@
 import './AuthenticatedHeader.scss'
+import logo from '../../assets/logo.png'
 
 type AuthenticatedHeaderProps = {
   userName: string
@@ -10,7 +11,7 @@ export function AuthenticatedHeader({ userName, onLogout }: AuthenticatedHeaderP
 
   return (
     <header className="authenticated-header">
-      <p className="authenticated-logo">Procure<span>.AI</span></p>
+      <img className="authenticated-logo" src={logo} alt="Procure.AI" />
       <div className="authenticated-header-actions">
         <span className="team-name">Procurement Team</span>
         <button className="help-button" aria-label="Help">?</button>
