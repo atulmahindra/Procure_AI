@@ -1,6 +1,10 @@
 import { useRef, useState } from 'react'
 import type { ChangeEvent, DragEvent } from 'react'
 import { AuthenticatedHeader } from '../shared/AuthenticatedHeader'
+import folderOpenIcon from '../../assets/folder-open.png'
+import shieldCheckIcon from '../../assets/shield-check.png'
+import trashIcon from '../../assets/trash.png'
+import vectorIcon from '../../assets/Vector.png'
 import './Upload.scss'
 
 type UploadProps = {
@@ -59,14 +63,36 @@ export function Upload({ userName, onLogout, onCompare }: UploadProps) {
 
         <div className="upload-grid">
           <section className="upload-card">
-            <button className={`drop-zone ${isDragging ? 'is-dragging' : ''}`} onClick={() => inputRef.current?.click()} onDragOver={(event) => { event.preventDefault(); setIsDragging(true) }} onDragLeave={() => setIsDragging(false)} onDrop={dropFiles}><input ref={inputRef} type="file" onChange={selectFile} accept=".pdf,.doc,.docx,.xls,.xlsx,.csv" multiple hidden /><span className="upload-icon">⌃</span><strong>Drag and drop quotations here</strong><span>PDF, XLSX, XLS, CSV or DOCX · Up to 20 MB each · Maximum 20 files</span><span className="browse-button">▱ &nbsp; Browse files</span></button>
-            <p className="security-note"><span>♧</span> Files are encrypted in transit and used only for this comparison.</p>
+            <button className={`drop-zone ${isDragging ? 'is-dragging' : ''}`} onClick={() => inputRef.current?.click()} onDragOver={(event) => { event.preventDefault(); setIsDragging(true) }} onDragLeave={() => setIsDragging(false)} onDrop={dropFiles}><input ref={inputRef} type="file" onChange={selectFile} accept=".pdf,.doc,.docx,.xls,.xlsx,.csv" multiple hidden /><span className="upload-icon"></span><strong>Drag and drop quotations here</strong><span>PDF, XLSX, XLS, CSV or DOCX · Up to 20 MB each · Maximum 20 files</span><span className="browse-button"><img src={folderOpenIcon} alt="" />Browse files</span></button>
+            <p className="security-note"><img src={shieldCheckIcon} alt="" /> Files are encrypted in transit and used only for this comparison.</p>
           </section>
 
-          <section className="files-card"><div className="files-heading"><h2>Uploaded files</h2><strong>{files.length} of 20</strong></div><div className="file-list">{files.map((file, index) => <div className="file-row" key={`${file.name}-${index}`}><span className="file-icon">□</span><div><p>{file.name}</p><small>{file.size} · <b>Ready</b></small></div><button onClick={() => removeFile(index)} aria-label={`Remove ${file.name}`}>♧</button></div>)}</div><p className="files-success"><span>✓</span> All files passed security and format checks.</p></section>
+         <section className="files-card">
+  <div className="files-heading">
+    <h2>Uploaded files</h2>
+    <strong>{files.length} of 20</strong>
+  </div>
+  <div className="file-list">
+    {files.map((file, index) => (
+      <div className="file-row" key={`${file.name}-${index}`}>
+        <span className="file-icon"></span>
+        <div>
+          <p>{file.name}</p>
+          <small>{file.size} · <b>Ready</b></small>
+        </div>
+        <button onClick={() => removeFile(index)} aria-label={`Remove ${file.name}`}>
+          <img src={trashIcon} alt="" />
+        </button>
+      </div>
+    ))}
+  </div>
+  <p className="files-success">
+    <span>✓</span> All files passed security and format checks.
+  </p>
+</section>
         </div>
 
-        <div className="upload-footer"><p>Tip: Include at least two supplier quotations for a meaningful comparison.</p><div><button className="save-button" type="button">Save draft</button><button className="process-button" type="button" disabled={files.length < 2} onClick={onCompare}>✣ &nbsp; Process &amp; compare quotations</button></div></div>
+        <div className="upload-footer"><p>Tip: Include at least two supplier quotations for a meaningful comparison.</p><div><button className="save-button" type="button">Save draft</button><button className="process-button" type="button" disabled={files.length < 2} onClick={onCompare} style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}><img src={vectorIcon} alt="" style={{ display: 'block', width: 16, height: 16 }} />Process &amp; compare quotations</button></div></div>
       </section>
     </main>
   )
