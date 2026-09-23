@@ -15,10 +15,42 @@ export function Login({ onLogin }: LoginProps) {
   const [showPassword, setShowPassword] = useState(false)
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    const name = email.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, (letter) => letter.toUpperCase()) || 'Ava Roberts'
-    onLogin(name)
+  event.preventDefault()
+
+  const identifier = email.trim()
+
+  // Email validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+  // Token ID validation - numbers only
+  const tokenRegex = /^\d+$/
+
+  const isEmail = emailRegex.test(identifier)
+  const isTokenId = tokenRegex.test(identifier)
+
+  if (!isEmail && !isTokenId) {
+    alert('Please enter a valid Email or Token ID')
+    return
   }
+
+  let name = 'Ava Roberts'
+
+  if (isEmail) {
+    name =
+      identifier
+        .split('@')[0]
+        .replace(/[._-]/g, ' ')
+        .replace(/\b\w/g, (letter) => letter.toUpperCase()) ||
+      'Ava Roberts'
+  }
+
+  if (isTokenId) {
+    // Token ID can be sent to your API for validation
+    console.log('Token ID:', identifier)
+  }
+
+  onLogin(name)
+}
 
   return (
     <main className="login-page">
@@ -51,7 +83,14 @@ export function Login({ onLogin }: LoginProps) {
         <div className="login-form-wrap">
           <div className="login-heading"><h2>Welcome back</h2><p>Sign in with your procurement team credentials.</p></div>
           <form onSubmit={handleSubmit} className="login-form">
-            <label htmlFor="email">Work email<input id="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="name@company.com" required /></label>
+            <label htmlFor="email">Email / Token ID  <input
+    id="email"
+    type="text"
+    value={email}
+    onChange={(event) => setEmail(event.target.value)}
+    placeholder="name@company.com / 32334543"
+    required
+  /></label>
             <label htmlFor="password">Password<div className="password-field"><input id="password" type={showPassword ? 'text' : 'password'} value={password} onChange={(event) => setPassword(event.target.value)} placeholder="••••••••••••" required minLength={4} /><button type="button" onClick={() => setShowPassword(!showPassword)} aria-label={showPassword ? 'Hide password' : 'Show password'}>{showPassword ? <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18M10.6 10.6a2 2 0 0 0 2.8 2.8M9.9 5.1A10.7 10.7 0 0 1 12 4.8c5.2 0 9 5.2 10 7.2a15.6 15.6 0 0 1-3.1 4.1M6.2 6.2A15.2 15.2 0 0 0 2 12c1 2 4.8 7.2 10 7.2 1.1 0 2.2-.2 3.1-.6" /></svg> : <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7.2 10-7.2S22 12 22 12s-3.5 7.2-10 7.2S2 12 2 12Z" /><circle cx="12" cy="12" r="2.8" /></svg>}</button></div></label>
             <div className="login-options"><label className="remember"><input type="checkbox" checked={rememberMe} onChange={(event) => setRememberMe(event.target.checked)} /><span>Remember me</span></label><a href="#forgot-password">Forgot password?</a></div>
             <button className="login-submit" type="submit">Log in</button>

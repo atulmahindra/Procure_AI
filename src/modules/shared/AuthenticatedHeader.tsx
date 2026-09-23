@@ -14,7 +14,7 @@ export function AuthenticatedHeader({ userName, onLogout }: AuthenticatedHeaderP
       <img className="authenticated-logo" src={logo} alt="Procure.AI" />
       <div className="authenticated-header-actions">
         <span className="team-name">Procurement Team</span>
-        <button className="help-button" aria-label="Help">?</button>
+        {/* <button className="help-button" aria-label="Help">?</button> */}
         <button className="user-avatar" onClick={onLogout} title="Log out">{initials}</button>
       </div>
     </header>
