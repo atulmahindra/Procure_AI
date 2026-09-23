@@ -4,7 +4,7 @@ import { AuthenticatedHeader } from '../shared/AuthenticatedHeader'
 import folderOpenIcon from '../../assets/folder-open.png'
 import shieldCheckIcon from '../../assets/shield-check.png'
 import trashIcon from '../../assets/trash.png'
-import vectorIcon from '../../assets/Vector.png'
+import sparklesIcon from '../../assets/sparkles.png'
 import './Upload.scss'
 
 type UploadProps = {
@@ -92,7 +92,7 @@ export function Upload({ userName, onLogout, onCompare }: UploadProps) {
 </section>
         </div>
 
-        <div className="upload-footer"><p>Tip: Include at least two supplier quotations for a meaningful comparison.</p><div><button className="save-button" type="button">Save draft</button><button className="process-button" type="button" disabled={files.length < 2} onClick={onCompare} style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}><img src={vectorIcon} alt="" style={{ display: 'block', width: 16, height: 16 }} />Process &amp; compare quotations</button></div></div>
+        <div className="upload-footer"><p>Tip: Include at least two supplier quotations for a meaningful comparison.</p><div><button className="save-button" type="button">Save draft</button><button className="process-button" type="button" disabled={files.length < 2} onClick={onCompare} style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}><img src={sparklesIcon} alt="" style={{ display: 'block', width: 16, height: 16 }} />Process &amp; compare quotations</button></div></div>
       </section>
     </main>
   )
