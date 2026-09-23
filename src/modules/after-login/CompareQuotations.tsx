@@ -14,7 +14,7 @@ const suppliers = [
   { rank: '03', name: 'Vortex Equipments', score: '80.1', total: '₹17.80L', delivery: '21 days', terms: '50% advance', compliance: '92%', risk: 'Medium', tone: 'standard' },
 ]
 
-export function CompareQuotations({ userName, onLogout, onBack, onProceed }: CompareQuotationsProps) {
+export function CompareQuotations({ userName, onLogout, onProceed }: CompareQuotationsProps) {
   return (
     <main className="compare-page">
       <AuthenticatedHeader userName={userName} onLogout={onLogout} />
