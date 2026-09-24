@@ -2,10 +2,14 @@
  .cockpit-top { align-items: center; padding-bottom: 2px; }
  .cockpit-top strong { color: #344054; font-weight: 800; letter-spacing: -.01em; }
  .cockpit-top span { color: #ed1b3a; background: #fff0f1; letter-spacing: .04em; }
- .cockpit-stats div { text-align: left; }
+ .cockpit-stats div { display: flex; flex-direction: column; justify-content: flex-end; text-align: left; }
  .cockpit-stats small, .cockpit-savings small, .cockpit-result small { color: #8290a5; letter-spacing: .04em; }
- .cockpit-stats b { color: #00a873; font-weight: 800; }
- .cockpit-stats div:nth-child(n+2) b { color: #344054; }
+ .cockpit-stats b { display: inline-flex; align-items: flex-end; margin-top: 4px; color: #00a873; font-weight: 800; line-height: 1; }
+ .cockpit-stats div:nth-child(2) b,
+ .cockpit-stats div:nth-child(2) em,
+ .cockpit-stats div:nth-child(2) b em { color: rgba(35, 31, 32, 1) !important; }
+ .cockpit-stats div:nth-child(3) b { color: rgba(37, 99, 235, 1) !important; }
+ .cockpit-stats div:nth-child(3) em { color: rgba(100, 116, 139, 1) !important; }
  .cockpit-stats em { color: #8290a5; }
  .cockpit-savings { align-items: center; text-align: left; }
  .cockpit-savings { display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto auto; align-items: center; }
@@ -13,16 +17,24 @@
  .cockpit-savings strong { display: block; grid-column: 1; grid-row: 2; align-self: start; color: #293142; font-weight: 800; line-height: 1.1; }
  .cockpit-savings > span { grid-column: 2; grid-row: 1 / span 2; margin-left: 14px; color: #ed1b3a; font-size: .4375rem; line-height: 1.35; text-align: right; }
  .cockpit-result { display: block; text-align: left; }
- .cockpit-result small { color: #00a873; }
- .cockpit-result strong { color: #344054; font-weight: 800; }
- .cockpit-result span { color: #8290a5; }
- .cockpit-result b { color: #00a873; font-weight: 800; }
-.analytics-page { min-height: 100vh; color: #293142; background: #fff; }.landing-hero { display: grid; min-height: 330px; grid-template-columns: 1fr 1fr; align-items: center; gap: 50px; padding: 40px clamp(28px, 8vw, 100px); background: #fff; }.hero-copy { max-width: 430px; }.landing-eyebrow, .section-kicker, .preview-label { display: inline-block; border-radius: 12px; padding: 4px 8px; color: #ed1b3a; background: #fff0f1; font-size: .5rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }.hero-copy h1 { margin: 16px 0 13px; color: #ed1b3a; font-size: clamp(2.2rem, 4.3vw, 3.55rem); font-weight: 800; line-height: 1.02; letter-spacing: -.055em; }.hero-copy h1 span { color: #697080; }.hero-copy p { max-width: 410px; margin: 0 0 18px; color: #69748a; font-size: .6875rem; line-height: 1.55; }.hero-copy button { border: 0; border-radius: 5px; padding: 10px 16px; color: #fff; background: #b80000; font: inherit; font-size: .5625rem; font-weight: 800; cursor: pointer; }.hero-copy button:hover { background: #ed0b1b; }.cockpit-card { width: min(100%, 440px); justify-self: center; border: 1px solid #e0e6ee; border-radius: 11px; padding: 15px; background: #f9fafc; box-shadow: 0 15px 28px rgb(33 50 75 / 12%); }.cockpit-top, .cockpit-savings, .cockpit-result { display: flex; align-items: center; justify-content: space-between; }.cockpit-top strong { color: #384357; font-size: .5625rem; }.cockpit-top span { border-radius: 8px; padding: 3px 6px; color: #ed1b3a; background: #fff0f1; font-size: .4375rem; font-weight: 800; }.cockpit-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin: 14px 0 10px; }.cockpit-stats div, .cockpit-savings, .cockpit-result { border: 1px solid #e4e9f1; border-radius: 5px; padding: 9px; background: #fff; }.cockpit-stats small, .cockpit-savings small, .cockpit-result small { display: block; color: #8a96aa; font-size: .375rem; font-weight: 700; }.cockpit-stats b { display: block; margin-top: 4px; color: #00a873; font-size: .8125rem; }.cockpit-stats div:nth-child(n+2) b { color: #293142; }.cockpit-stats em { color: #8a96aa; font-size: .4375rem; font-style: normal; font-weight: 400; }.cockpit-savings { position: relative; margin-bottom: 9px; }.cockpit-savings strong { display: block; color: #293142; font-size: .8125rem; }.cockpit-savings span { color: #ed1b3a; font-size: .4375rem; text-align: right; }.cockpit-result { display: block; }.cockpit-result small { color: #00a873; }.cockpit-result strong { display: block; margin: 6px 0; color: #384357; font-size: .5625rem; }.cockpit-result span { color: #8a96aa; font-size: .375rem; }.cockpit-result b { color: #00a873; }
+ .cockpit-result small { color: rgba(35, 31, 32, 1); }
+ .cockpit-result strong { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; color: #344054; font-weight: 800; }
+ .cockpit-result-label { font-weight: 500; }
+ .cockpit-result-name { font-weight: 800; }
+ .cockpit-result > div { display: flex; flex-direction: row; align-items: flex-start; gap: 4px; }
+ .cockpit-result-metrics { display: flex; flex-direction: row; align-items: flex-start; gap: 4px; }
+ .cockpit-result-row { display: flex; flex-direction: row; align-items: center; justify-content: flex-start; gap: 4px; width: 100%; font-size: 0.5625rem; color: #8290a5; line-height: 1.35; }
+ .cockpit-result-row:nth-child(1) b { color: rgba(35, 31, 32, 1); }
+ .cockpit-result-row:nth-child(2) b { color: rgba(227, 24, 55, 1); }
+ .cockpit-result-row:nth-child(3) b { color: #00a873; }
+ .cockpit-result-row b { display: inline-flex; align-items: flex-end; margin-left: 2px; font-weight: 800; line-height: 1; }
+.analytics-page { min-height: 100vh; color: #293142; background: #fff; }.landing-hero { display: grid; min-height: 330px; grid-template-columns: 1fr 1fr; align-items: center; gap: 50px; padding: 40px clamp(28px, 8vw, 100px); background: #fff; }.hero-copy { max-width: 430px; }.landing-eyebrow, .section-kicker, .preview-label { display: inline-block; border-radius: 12px; padding: 4px 8px; color: #ed1b3a; background: #fff0f1; font-size: .5rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }.hero-copy h1 { margin: 16px 0 13px; color: #ed1b3a; font-size: clamp(2.2rem, 4.3vw, 3.55rem); font-weight: 800; line-height: 1.02; letter-spacing: -.055em; }.hero-copy h1 span { color: #697080; }.hero-copy p { max-width: 410px; margin: 0 0 18px; color: #69748a; font-size: .6875rem; line-height: 1.55; }.hero-copy button { border: 0; border-radius: 5px; padding: 10px 16px; color: #fff; background: #b80000; font: inherit; font-size: .5625rem; font-weight: 800; cursor: pointer; }.hero-copy button:hover { background: #ed0b1b; }.cockpit-card { width: min(100%, 440px); justify-self: center; border: 1px solid #e0e6ee; border-radius: 11px; padding: 15px; background: #f9fafc; box-shadow: 0 15px 28px rgb(33 50 75 / 12%); }.cockpit-top, .cockpit-savings, .cockpit-result { display: flex; align-items: center; justify-content: space-between; }.cockpit-top strong { color: #384357; font-size: .5625rem; }.cockpit-top span { border-radius: 8px; padding: 3px 6px; color: #ed1b3a; background: #fff0f1; font-size: .4375rem; font-weight: 800; }.cockpit-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin: 14px 0 10px; }.cockpit-stats div, .cockpit-savings, .cockpit-result { border: 1px solid #e4e9f1; border-radius: 5px; padding: 9px; background: #fff; }.cockpit-stats small, .cockpit-savings small, .cockpit-result small { display: block; color: #8a96aa; font-size: .375rem; font-weight: 700; }.cockpit-stats b { display: block; margin-top: 4px; color: #00a873; font-size: .8125rem; }.cockpit-stats div:nth-child(n+2) b { color: #293142; }.cockpit-stats em { color: #8a96aa; font-size: .4375rem; font-style: normal; font-weight: 400; }.cockpit-savings { position: relative; margin-bottom: 9px; }.cockpit-savings strong { display: block; color: #293142; font-size: .8125rem; }.cockpit-savings span { color: #ed1b3a; font-size: .4375rem; text-align: right; }.cockpit-result { display: block; }.cockpit-result small { color: #00a873; }.cockpit-result strong { display: block; margin: 6px 0; color: #384357; font-size: .5625rem; }.cockpit-result span {  font-size: .375rem; }.cockpit-result b { color: #00a873; }
 .metric-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 24px clamp(28px, 8vw, 100px); background: #eff1f4; }.metric-strip div { display: grid; grid-template-columns: auto auto; align-items: center; justify-content: center; column-gap: 4px; border-right: 1px solid #aab2bf; }.metric-strip div:last-child { border-right: 0; }.metric-strip strong { color: #34445c; font-size: clamp(1.3rem, 2.5vw, 2rem); font-weight: 800; letter-spacing: -.06em; }.metric-strip span { align-self: center; border-radius: 8px; padding: 3px 5px; color: #fff; background: #ed1b3a; font-size: .375rem; font-weight: 800; }.metric-strip small { grid-column: 1 / -1; color: #6d7788; font-size: .4375rem; text-align: center; }.modules-section, .workflow-section, .benefits-section { padding: 46px clamp(24px, 7vw, 90px); text-align: center; }.section-kicker, .preview-label { color: #ed1b3a; background: #fff0f1; }.modules-section h2, .workflow-section h2, .core-section h2, .operations-section h2, .benefits-section h2 { margin: 10px 0 25px; color: #2d3545; font-size: clamp(1.3rem, 2.5vw, 1.8rem); font-weight: 800; letter-spacing: -.04em; }.module-cards { display: grid; max-width: 900px; grid-template-columns: 1fr 1fr; gap: 15px; margin: 0 auto; }.module-cards article { border: 1px solid #dbe4f7; border-radius: 8px; padding: 17px; background: #f9fbff; text-align: left; }.module-cards article > span { color: #ed1b3a; font-size: .4375rem; font-weight: 800; }.module-cards h3 { margin: 7px 0 12px; color: #33445f; font-size: .8125rem; }.mini-panel { border-radius: 5px; padding: 10px; background: #fff; font-size: .5rem; }.mini-panel p { margin: 0 0 7px; color: #53617a; }.mini-panel small { color: #8793a7; font-size: .4375rem; }.mini-panel b { color: #35445c; font-size: .625rem; }.mini-panel em { float: right; color: #00a873; font-size: .4375rem; font-style: normal; }.module-cards article footer { margin-top: 10px; border-radius: 4px; padding: 7px; color: #ed1b3a; background: #fff4f5; font-size: .4375rem; }.comparison-preview { position: relative; max-width: 900px; margin: 0 auto 45px; border: 1px solid #dbe4f7; border-radius: 8px; padding: 18px; background: #f9fbff; }.comparison-preview h2 { margin: 5px 0 14px; color: #33445f; font-size: .9375rem; text-align: left; }.active-pill { position: absolute; top: 22px; right: 18px; border-radius: 10px; padding: 5px 8px; color: #00a873; background: #e6faf2; font-size: .4375rem; font-weight: 800; }.preview-table { overflow-x: auto; border: 1px solid #e1e6ee; border-radius: 5px; background: #fff; }.preview-table > div { display: grid; min-width: 700px; grid-template-columns: 1.4fr repeat(5, 1fr); border-bottom: 1px solid #edf0f5; padding: 9px; color: #59667b; font-size: .4375rem; }.preview-table > div:last-child { border: 0; }.preview-table b { color: #64748a; font-size: .375rem; }.preview-table strong { color: #293142; }.preview-table em { border-radius: 3px; padding: 3px; color: #526da0; background: #eaf1ff; font-size: .375rem; font-style: normal; }.preview-insight { margin-top: 10px; border: 1px solid #e1e8f4; border-radius: 5px; padding: 10px; color: #ed1b3a; font-size: .5rem; text-align: left; }.preview-insight span { margin-left: 8px; color: #8793a7; font-size: .4375rem; }
 .workflow-section { background: #f5f6f8; }.workflow-row { display: grid; max-width: 900px; grid-template-columns: repeat(5, 1fr); gap: 14px; margin: 0 auto; text-align: left; }.workflow-row article { position: relative; }.workflow-row article:not(:last-child)::after { position: absolute; top: 9px; right: -11px; width: 12px; border-top: 1px solid #d3dae5; content: ''; }.workflow-row strong { color: #ed1b3a; font-size: 1rem; }.workflow-row h3 { margin: 5px 0; color: #35445c; font-size: .5625rem; }.workflow-row p { margin: 0; color: #8993a3; font-size: .4375rem; line-height: 1.4; }.core-section { padding: 45px 24px; text-align: center; }.core-flow { display: grid; max-width: 900px; grid-template-columns: 1fr 1.4fr 1fr; align-items: center; gap: 25px; margin: 0 auto; text-align: left; }.core-flow > div:first-child, .core-flow > div:last-child { display: grid; gap: 6px; }.core-flow small { color: #59667b; font-size: .4375rem; font-weight: 800; }.core-flow span { border-radius: 3px; padding: 7px; color: #fff; background: #5a5c61; font-size: .4375rem; }.core-box { display: grid; place-items: center; border: 1px solid #dce2eb; border-radius: 8px; padding: 22px; background: #f5f6f8; text-align: center; }.core-box b { display: grid; width: 30px; height: 30px; place-items: center; border-radius: 50%; color: #fff; background: #ed1b3a; }.core-box strong { margin-top: 7px; color: #33445f; font-size: .625rem; }.core-box p { margin: 5px 0 0; color: #929baa; font-size: .4375rem; }.operations-section { padding: 45px clamp(24px, 7vw, 90px); background: #f5f6f8; text-align: center; }.operations-card { max-width: 900px; margin: 0 auto; border: 1px solid #dce3ef; border-radius: 8px; padding: 15px; background: #fff; }.operation-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }.operation-stats div { display: grid; gap: 6px; border-radius: 5px; padding: 12px 9px; background: #e7e8eb; text-align: left; }.operation-stats small { color: #6f7785; font-size: .375rem; font-weight: 800; }.operation-stats b { color: #2f394b; font-size: .6875rem; }.operation-body { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 12px; }.operation-body > div { padding: 10px; border-radius: 5px; background: #f4f5f7; text-align: left; }.operation-body strong { color: #35445c; font-size: .5625rem; }.operation-body p { margin: 7px 0 0; border-bottom: 1px solid #dbe0e8; padding-bottom: 5px; color: #808b9e; font-size: .4375rem; }.benefits-section > div { display: grid; max-width: 900px; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 0 auto; }.benefits-section article { border-radius: 8px; padding: 17px; background: #eef0f3; text-align: left; }.benefits-section article > b { display: grid; width: 22px; height: 22px; place-items: center; border-radius: 5px; color: #fff; background: #ed1b3a; font-size: .6875rem; }.benefits-section h3 { margin: 12px 0 6px; color: #35445c; font-size: .6875rem; }.benefits-section p { margin: 0; color: #7f8998; font-size: .4375rem; line-height: 1.5; }
 @media (max-width: 760px) { .landing-hero { grid-template-columns: 1fr; gap: 28px; padding: 42px 24px; }.cockpit-card { justify-self: stretch; }.metric-strip { grid-template-columns: repeat(2, 1fr); }.metric-strip div:nth-child(2) { border-right: 0; }.module-cards, .workflow-row, .core-flow, .operation-body, .benefits-section > div { grid-template-columns: 1fr; }.workflow-row article:not(:last-child)::after { display: none; }.operation-stats { grid-template-columns: repeat(2, 1fr); }.active-pill { position: static; display: inline-block; margin-bottom: 10px; } }
 @media (max-width: 480px) { .marketing-header { position: sticky; top: 0; z-index: 2; }.landing-hero { padding: 34px 20px; }.hero-copy h1 { font-size: 2.35rem; }.metric-strip { padding: 20px 12px; }.metric-strip strong { font-size: 1.25rem; }.modules-section, .workflow-section, .core-section, .operations-section, .benefits-section { padding: 35px 16px; } }
 .onboarding-progress { height: 5px; margin: 8px 0 9px; overflow: hidden; border-radius: 999px; background: #e7ebf2; }
+.landing-eyebrow { display: inline-flex; align-items: center; gap: 5px; }.landing-eyebrow img { display: block; width: 12px; height: 12px; object-fit: contain; }
 .onboarding-progress span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #ed1b3a, #f15b6c); }
 .lifecycle-panel { display: grid; gap: 10px; }
 .lifecycle-item { display: grid; gap: 4px; }
@@ -56,7 +68,14 @@
 .hero-copy h1 { color: transparent; background: linear-gradient(105deg, #d90018 0%, #ed1b3a 42%, #697080 78%, #4d5668 100%); background-clip: text; -webkit-background-clip: text; }
 .hero-copy h1 span { color: inherit; }
 @media (max-width: 760px) { .landing-hero { width: min(100% - 32px, 650px); grid-template-columns: 1fr; gap: 28px; padding: 42px 0; }.hero-copy { width: 100%; max-width: 560px; }.hero-copy p { max-width: 500px; } }
-@media (min-width: 1200px) { .landing-hero { width: min(100% - 72px, 1120px); min-height: clamp(420px, 34vw, 540px); gap: clamp(68px, 7vw, 104px); padding: clamp(58px, 5vw, 82px) 0; }.hero-copy { max-width: 680px; }.hero-copy p { max-width: 610px; font-size: .75rem; }.hero-copy h1 { font-size: clamp(3.6rem, 4.7vw, 5rem); }.cockpit-card { width: min(100%, 700px); padding: 32px; }.cockpit-stats div, .cockpit-savings, .cockpit-result { padding: 17px; } }
+@media (min-width: 1200px) { .landing-hero { width: min(100% - 72px, 1120px); min-height: clamp(420px, 34vw, 540px); gap: clamp(68px, 7vw, 104px); padding: clamp(58px, 5vw, 82px) 0; }.hero-copy { max-width: 680px; }.hero-copy p { max-width: 610px; font-size: .75rem; }.hero-copy h1 { font-size: clamp(3.6rem, 4.7vw, 5rem); }.cockpit-card { width: min(100%, 700px); padding: 32px; }.cockpit-top strong::before{ margin-bottom: 8px;
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background: #ccc;
+        left: 0;
+        top: 7px;content: "";left:0px; top :5px;background: rgba(227, 24, 55, 1);
+        border-radius: 50%; }.cockpit-top strong { position: relative;padding-left: 15px; font-size: .85rem; }.cockpit-top span { font-size: .625rem; }.cockpit-stats div, .cockpit-savings, .cockpit-result { padding: 17px; }.cockpit-stats small, .cockpit-savings small, .cockpit-result small { font-size: .5625rem; }.cockpit-stats b, .cockpit-savings strong { font-size: 1.25rem; }.cockpit-savings span { font-size: .625rem; }.cockpit-result strong { font-size: .85rem; }.cockpit-result span { font-size: .5625rem; } }
 @media (min-width: 1600px) { .landing-hero { width: min(100% - 140px, 1240px); min-height: 520px; }.hero-copy h1 { font-size: clamp(4rem, 4.2vw, 5.25rem); }.hero-copy p { font-size: .8125rem; }.cockpit-card { width: min(100%, 700px); padding: 30px; } }
 .landing-hero { grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr); }
 .hero-copy { max-width: 500px; }
@@ -76,3 +95,81 @@
 @media (min-width: 761px) { .hero-copy h1 { font-size: clamp(2.3rem, 3vw, 3.35rem); } }
 @media (min-width: 1200px) { .hero-copy h1 { font-size: clamp(2.5rem, 3vw, 3.6rem); } }
 @media (min-width: 1600px) { .hero-copy h1 { font-size: clamp(2.8rem, 3vw, 4rem); } }
+
+.cockpit-result small { color: rgba(35, 31, 32, 1); }
+.cockpit-result small { display: flex; align-items: center; justify-content: flex-start; width: 100%; border-bottom: 1px solid rgba(226, 232, 240, 1); padding-bottom: 7px; color: rgba(227, 24, 55, 1); }
+.cockpit-result small img { width: 12px; height: 12px; margin-right: 5px; object-fit: contain; }
+.cockpit-result small::after { content: 'Ref: RFQ-2026-A'; margin-left: auto; color: rgba(100, 116, 139, 1); font-size: .4375rem; font-weight: 400; }
+
+.module-cards article > span { font-size: .5625rem; }
+.module-cards h3 { font-size: .95rem; }
+.module-cards .mini-panel { font-size: .6rem; }
+.module-cards .mini-panel small { font-size: .5rem; }
+.module-cards .mini-panel b { font-size: .75rem; }
+.module-cards .mini-panel em { font-size: .5rem; }
+.module-cards article footer { font-size: .5rem; }
+@media (min-width: 1200px) {
+        .module-cards article > span { font-size: .625rem; }
+        .module-cards h3 { font-size: 1.15rem; }
+        .module-cards .mini-panel { font-size: .7rem; }
+        .module-cards .mini-panel small { font-size: .5625rem; }
+        .module-cards .mini-panel b { font-size: .875rem; }
+        .module-cards .mini-panel em { font-size: .5625rem; }
+        .module-cards article footer { font-size: .5625rem; }
+}
+@media (min-width: 761px) {
+        .comparison-preview h2 { font-size: 1.1rem; }
+        .comparison-preview .active-pill { font-size: .5rem; }
+        .comparison-preview .preview-table > div { font-size: .5rem; }
+        .comparison-preview .preview-table b,
+        .comparison-preview .preview-table em { font-size: .4375rem; }
+        .comparison-preview .preview-insight { font-size: .5625rem; }
+        .comparison-preview .preview-insight span { font-size: .5rem; }
+}
+@media (min-width: 1200px) {
+        .comparison-preview h2 { font-size: 1.3rem; }
+        .comparison-preview .active-pill { font-size: .5625rem; }
+        .comparison-preview .preview-table > div { font-size: .5625rem; padding: 11px; }
+        .comparison-preview .preview-table b,
+        .comparison-preview .preview-table em { font-size: .5rem; }
+        .comparison-preview .preview-insight { font-size: .625rem; }
+        .comparison-preview .preview-insight span { font-size: .5625rem; }
+}
+.analytics-page p,
+.analytics-page small,
+.analytics-page em,
+.analytics-page button,
+.analytics-page footer,
+.analytics-page .landing-eyebrow,
+.analytics-page .section-kicker,
+.analytics-page .preview-label,
+.analytics-page .active-pill,
+.analytics-page .cockpit-top span,
+.analytics-page .cockpit-savings > span,
+.analytics-page .cockpit-result small,
+.analytics-page .cockpit-result-row,
+.analytics-page .module-cards article > span,
+.analytics-page .preview-table span,
+.analytics-page .preview-table b,
+.analytics-page .preview-table em,
+.analytics-page .preview-insight span,
+.analytics-page .workflow-row p,
+.analytics-page .core-flow span,
+.analytics-page .core-flow small,
+.analytics-page .operation-body p,
+.analytics-page .lifecycle-item small,
+.analytics-page .benefits-section p {
+        font-size: clamp(.5rem, .42rem + .22vw, .72rem);
+}
+.analytics-page .hero-copy p { font-size: clamp(.65rem, .54rem + .24vw, .82rem); }
+.analytics-page .cockpit-stats b,
+.analytics-page .cockpit-savings strong,
+.analytics-page .operation-stats b { font-size: clamp(.9rem, .72rem + .38vw, 1.25rem); }
+.analytics-page .metric-strip strong { font-size: clamp(1.3rem, 1rem + .75vw, 2rem); }
+.module-cards .mini-panel { font-size: clamp(.62rem, .56rem + .12vw, .78rem); }
+.module-cards .mini-panel small { font-size: clamp(.52rem, .48rem + .1vw, .64rem); }
+.module-cards .mini-panel b { font-size: clamp(.78rem, .7rem + .16vw, .95rem); }
+.module-cards .mini-panel em { font-size: clamp(.52rem, .48rem + .1vw, .64rem); }
+.module-cards article footer { font-size: clamp(.6rem, .54rem + .13vw, .76rem); }
+.cockpit-result strong { color: rgba(35, 31, 32, 1); }
+.cockpit-result > div { flex-direction: row; }
