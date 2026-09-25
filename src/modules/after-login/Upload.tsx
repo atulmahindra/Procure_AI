@@ -25,9 +25,12 @@ const starterFiles: UploadedFile[] = [
 ]
 
 export function Upload({ userName, onLogout, onCompare }: UploadProps) {
+  const MAX_FILES = 3
+
   const inputRef = useRef<HTMLInputElement>(null)
   const [files, setFiles] = useState<UploadedFile[]>(starterFiles)
   const [isDragging, setIsDragging] = useState(false)
+  const [limitWarning, setLimitWarning] = useState('')
 
   function addFiles(fileList: FileList | null) {
     if (!fileList?.length) return
@@ -35,7 +38,19 @@ export function Upload({ userName, onLogout, onCompare }: UploadProps) {
       name: file.name,
       size: `${(file.size / (1024 * 1024)).toFixed(1)} MB`,
     }))
-    setFiles((current) => [...current, ...incoming].slice(0, 20))
+    setFiles((current) => {
+      const availableSlots = MAX_FILES - current.length
+      if (availableSlots <= 0) {
+        setLimitWarning(`You can upload a maximum of ${MAX_FILES} files.`)
+        return current
+      }
+      if (incoming.length > availableSlots) {
+        setLimitWarning(`You can upload a maximum of ${MAX_FILES} files. Only the first ${availableSlots} were added.`)
+      } else {
+        setLimitWarning('')
+      }
+      return [...current, ...incoming.slice(0, availableSlots)]
+    })
   }
 
   function selectFile(event: ChangeEvent<HTMLInputElement>) {
@@ -46,12 +61,19 @@ export function Upload({ userName, onLogout, onCompare }: UploadProps) {
   function dropFiles(event: DragEvent<HTMLButtonElement>) {
     event.preventDefault()
     setIsDragging(false)
+    if (files.length >= MAX_FILES) {
+      setLimitWarning(`You can upload a maximum of ${MAX_FILES} files.`)
+      return
+    }
     addFiles(event.dataTransfer.files)
   }
 
   function removeFile(index: number) {
     setFiles((current) => current.filter((_, fileIndex) => fileIndex !== index))
+    setLimitWarning('')
   }
+
+  const isLimitReached = files.length >= MAX_FILES
 
   return (
     <main className="upload-page">
@@ -63,14 +85,15 @@ export function Upload({ userName, onLogout, onCompare }: UploadProps) {
 
         <div className="upload-grid">
           <section className="upload-card">
-            <button className={`drop-zone ${isDragging ? 'is-dragging' : ''}`} onClick={() => inputRef.current?.click()} onDragOver={(event) => { event.preventDefault(); setIsDragging(true) }} onDragLeave={() => setIsDragging(false)} onDrop={dropFiles}><input ref={inputRef} type="file" onChange={selectFile} accept=".pdf,.doc,.docx,.xls,.xlsx,.csv" multiple hidden /><span className="upload-icon"></span><strong>Drag and drop quotations here</strong><span>PDF, XLSX, XLS, CSV or DOCX · Up to 20 MB each · Maximum 20 files</span><span className="browse-button"><img src={folderOpenIcon} alt="" />Browse files</span></button>
+            <button className={`drop-zone ${isDragging ? 'is-dragging' : ''}`} disabled={isLimitReached} onClick={() => inputRef.current?.click()} onDragOver={(event) => { event.preventDefault(); if (!isLimitReached) setIsDragging(true) }} onDragLeave={() => setIsDragging(false)} onDrop={dropFiles}><input ref={inputRef} type="file" onChange={selectFile} accept=".pdf,.doc,.docx,.xls,.xlsx,.csv" multiple hidden /><span className="upload-icon"></span><strong>Drag and drop quotations here</strong><span>PDF, XLSX, XLS, CSV or DOCX · Up to 20 MB each · Maximum 3 files</span><span className="browse-button"><img src={folderOpenIcon} alt="" />Browse files</span></button>
+            {limitWarning && <p className="limit-warning" role="alert">{limitWarning}</p>}
             <p className="security-note"><img src={shieldCheckIcon} alt="" /> Files are encrypted in transit and used only for this comparison.</p>
           </section>
 
          <section className="files-card">
   <div className="files-heading">
     <h2>Uploaded files</h2>
-    <strong>{files.length} of 20</strong>
+    <strong>{files.length} of 3</strong>
   </div>
   <div className="file-list">
     {files.map((file, index) => (
