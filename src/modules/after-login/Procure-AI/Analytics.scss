@@ -23,7 +23,7 @@
  .cockpit-result-name { font-weight: 800; }
  .cockpit-result > div { display: flex; flex-direction: row; align-items: flex-start; gap: 4px; }
  .cockpit-result-metrics { display: flex; flex-direction: row; align-items: flex-start; gap: 4px; }
- .cockpit-result-row { display: flex; flex-direction: row; align-items: center; justify-content: flex-start; gap: 4px; width: 100%; font-size: 0.5625rem; color: #8290a5; line-height: 1.35; }
+ .cockpit-result-row { display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 4px; width: 100%; font-size: 0.5625rem; color: #8290a5; line-height: 1.35; }
  .cockpit-result-row:nth-child(1) b { color: rgba(35, 31, 32, 1); }
  .cockpit-result-row:nth-child(2) b { color: rgba(227, 24, 55, 1); }
  .cockpit-result-row:nth-child(3) b { color: #00a873; }
@@ -159,17 +159,48 @@
 .analytics-page .operation-body p,
 .analytics-page .lifecycle-item small,
 .analytics-page .benefits-section p {
-        font-size: clamp(.5rem, .42rem + .22vw, .72rem);
+        font-size: .65rem;
 }
-.analytics-page .hero-copy p { font-size: clamp(.65rem, .54rem + .24vw, .82rem); }
+.analytics-page .hero-copy p { font-size: .72rem; }
 .analytics-page .cockpit-stats b,
 .analytics-page .cockpit-savings strong,
-.analytics-page .operation-stats b { font-size: clamp(.9rem, .72rem + .38vw, 1.25rem); }
-.analytics-page .metric-strip strong { font-size: clamp(1.3rem, 1rem + .75vw, 2rem); }
-.module-cards .mini-panel { font-size: clamp(.62rem, .56rem + .12vw, .78rem); }
-.module-cards .mini-panel small { font-size: clamp(.52rem, .48rem + .1vw, .64rem); }
-.module-cards .mini-panel b { font-size: clamp(.78rem, .7rem + .16vw, .95rem); }
-.module-cards .mini-panel em { font-size: clamp(.52rem, .48rem + .1vw, .64rem); }
-.module-cards article footer { font-size: clamp(.6rem, .54rem + .13vw, .76rem); }
+.analytics-page .operation-stats b { font-size: 1rem; }
+.analytics-page .metric-strip strong { font-size: 1.5rem; }
+.module-cards .mini-panel { font-size: .72rem; }
+.module-cards .mini-panel p { font-size: .76rem; }
+.module-cards .mini-panel small { font-size: .62rem; }
+.module-cards .mini-panel b { font-size: .9rem; }
+.module-cards .mini-panel em { font-size: .62rem; }
+.module-cards article footer { font-size: .68rem; }
+@media (min-width: 1600px) {
+        .analytics-page p,
+        .analytics-page small,
+        .analytics-page em,
+        .analytics-page button,
+        .analytics-page footer,
+        .analytics-page .landing-eyebrow,
+        .analytics-page .section-kicker,
+        .analytics-page .preview-label,
+        .analytics-page .active-pill,
+        .analytics-page .cockpit-result-row,
+        .analytics-page .workflow-row p,
+        .analytics-page .core-flow span,
+        .analytics-page .core-flow small,
+        .analytics-page .operation-body p,
+        .analytics-page .lifecycle-item small,
+        .analytics-page .benefits-section p {
+                font-size: .82rem;
+        }
+        .analytics-page .hero-copy p { font-size: .82rem; }
+        .analytics-page .cockpit-stats b,
+        .analytics-page .cockpit-savings strong,
+        .analytics-page .operation-stats b { font-size: 1.25rem; }
+        .module-cards .mini-panel { font-size: .82rem; }
+        .module-cards .mini-panel p { font-size: .9rem; }
+        .module-cards .mini-panel small,
+        .module-cards .mini-panel em { font-size: .68rem; }
+        .module-cards .mini-panel b { font-size: 1rem; }
+        .module-cards article footer { font-size: .76rem; }
+}
 .cockpit-result strong { color: rgba(35, 31, 32, 1); }
 .cockpit-result > div { flex-direction: row; }
