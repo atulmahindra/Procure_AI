@@ -6,3 +6,21 @@ html { font-size: clamp(87.5%, calc(80% + .35vw), 100%); }
 * { box-sizing: border-box; }
 body { min-width: 320px; margin: 0; }
 button, input { font-family: inherit; }
+
+html[data-theme='dark'] { color-scheme: dark; }
+html[data-theme='dark'] body { color: #e7ebf4; background: #151922; }
+html[data-theme='dark'] .marketing-header { border-color: #303746; background: #1b202b; }
+html[data-theme='dark'] .marketing-header.minimal { background: #1b202b; }
+html[data-theme='dark'] .marketing-logo, html[data-theme='dark'] .marketing-nav a, html[data-theme='dark'] .support-button { color: #e7ebf4; }
+html[data-theme='dark'] .marketing-nav a, html[data-theme='dark'] .marketing-right-label { color: #aab4c7; }
+html[data-theme='dark'] .support-button { border-color: #465064; color: #c5cede; }
+html[data-theme='dark'] .login-page, html[data-theme='dark'] .compare-page { color: #e7ebf4; background: #151922; }
+html[data-theme='dark'] .login-brand-panel, html[data-theme='dark'] .login-form-wrap, html[data-theme='dark'] .ranking-table, html[data-theme='dark'] .recommendation-card, html[data-theme='dark'] .decision-card { border-color: #303746; background: #202632; }
+html[data-theme='dark'] .login-form-panel { background: #151922; }
+html[data-theme='dark'] .brand-copy h1, html[data-theme='dark'] .login-heading h2, html[data-theme='dark'] .compare-intro h1, html[data-theme='dark'] .recommendation-copy h2, html[data-theme='dark'] .ranked-heading h2, html[data-theme='dark'] .decision-card h2 { color: #f0f3f8; }
+html[data-theme='dark'] .brand-copy > p:not(.eyebrow), html[data-theme='dark'] .recommendation-copy p, html[data-theme='dark'] .decision-card p { color: #aeb8c9; }
+html[data-theme='dark'] .login-form input:not([type='checkbox']), html[data-theme='dark'] .sso-button, html[data-theme='dark'] .outline-action { border-color: #465064; color: #e7ebf4; background: #1a1f29; }
+html[data-theme='dark'] .ranking-header { color: #aeb8c9; background: #282f3d; }
+html[data-theme='dark'] .ranking-row { border-color: #303746; color: #c5cede; }
+html[data-theme='dark'] .ranking-row.recommended { background: #26354a; }
+html[data-theme='dark'] .decision-card, html[data-theme='dark'] .proceed-card { border-color: #303746; }

@@ -204,3 +204,53 @@
 }
 .cockpit-result strong { color: rgba(35, 31, 32, 1); }
 .cockpit-result > div { flex-direction: row; }
+
+html[data-theme='dark'] .analytics-page { color: #e7ebf4; background: #151922; }
+html[data-theme='dark'] .analytics-page .landing-hero,
+html[data-theme='dark'] .analytics-page .modules-section,
+html[data-theme='dark'] .analytics-page .comparison-preview,
+html[data-theme='dark'] .analytics-page .core-section,
+html[data-theme='dark'] .analytics-page .benefits-section { background: #151922; }
+html[data-theme='dark'] .analytics-page .metric-strip,
+html[data-theme='dark'] .analytics-page .workflow-section,
+html[data-theme='dark'] .analytics-page .operations-section { background: #1b202b; }
+html[data-theme='dark'] .analytics-page h2,
+html[data-theme='dark'] .analytics-page h3,
+html[data-theme='dark'] .analytics-page .hero-copy p,
+html[data-theme='dark'] .analytics-page .workflow-row p,
+html[data-theme='dark'] .analytics-page .core-flow small,
+html[data-theme='dark'] .analytics-page .core-box strong,
+html[data-theme='dark'] .analytics-page .core-box p,
+html[data-theme='dark'] .analytics-page .lifecycle-item span,
+html[data-theme='dark'] .analytics-page .lifecycle-item small { color: #b9c3d4; }
+html[data-theme='dark'] .analytics-page .hero-copy h1 span { color: #aeb8c9; }
+html[data-theme='dark'] .analytics-page .cockpit-card,
+html[data-theme='dark'] .analytics-page .cockpit-stats div,
+html[data-theme='dark'] .analytics-page .cockpit-savings,
+html[data-theme='dark'] .analytics-page .cockpit-result,
+html[data-theme='dark'] .analytics-page .module-cards article,
+html[data-theme='dark'] .analytics-page .operations-card,
+html[data-theme='dark'] .analytics-page .core-box { border-color: #303746; background: #202632; }
+html[data-theme='dark'] .analytics-page .cockpit-top strong,
+html[data-theme='dark'] .analytics-page .cockpit-result strong,
+html[data-theme='dark'] .analytics-page .cockpit-savings strong,
+html[data-theme='dark'] .analytics-page .metric-strip strong,
+html[data-theme='dark'] .analytics-page .module-cards h3,
+html[data-theme='dark'] .analytics-page .operation-body > div > strong { color: #f0f3f8; }
+html[data-theme='dark'] .analytics-page .module-cards .mini-panel,
+html[data-theme='dark'] .analytics-page .operation-stats div { background: #293140; }
+html[data-theme='dark'] .analytics-page .module-cards .mini-panel p,
+html[data-theme='dark'] .analytics-page .module-cards .mini-panel small,
+html[data-theme='dark'] .analytics-page .operation-body p,
+html[data-theme='dark'] .analytics-page .metric-strip small { color: #aeb8c9; }
+html[data-theme='dark'] .analytics-page .workflow-row article:not(:last-child)::after,
+html[data-theme='dark'] .analytics-page .metric-strip div { border-color: #465064; }
+html[data-theme='dark'] .analytics-page .comparison-preview .preview-table,
+html[data-theme='dark'] .analytics-page .comparison-preview .preview-insight { border-color: #303746; background: #202632; }
+html[data-theme='dark'] .analytics-page .comparison-preview .preview-table > div { border-color: #303746; color: #b9c3d4; }
+html[data-theme='dark'] .analytics-page .lifecycle-track,
+html[data-theme='dark'] .analytics-page .onboarding-progress { background: #3a4352; }
+html[data-theme='dark'] .analytics-page .operation-body > div { border-color: #303746; background: #202632; }
+html[data-theme='dark'] .analytics-page .benefits-section > div { background: transparent; }
+html[data-theme='dark'] .analytics-page .benefits-section article { border-color: #303746; background: #202632; }
+html[data-theme='dark'] .analytics-page .benefits-section article h3 { color: #f0f3f8; }
