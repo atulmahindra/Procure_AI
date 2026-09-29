@@ -11,6 +11,11 @@ function App() {
   const [userName, setUserName] = useState<string | null>(() => sessionStorage.getItem('procureflow-user'))
 
   useEffect(() => {
+    if (window.location.pathname === '/') {
+      window.history.replaceState({}, '', '/procure-ai')
+      setPath('/procure-ai')
+    }
+
     function handlePopState() {
       setPath(window.location.pathname)
       setUserName(sessionStorage.getItem('procureflow-user'))
@@ -37,6 +42,10 @@ function App() {
     navigate('/login')
   }
 
+  if (path === '/procure-ai') {
+    return <Analytics onBack={() => navigate('/login')} />
+  }
+
   if (path === '/upload') {
     return <Upload userName={userName ?? 'Procurement User'} onLogout={handleLogout} onCompare={() => navigate('/compare-quotations')} />
   }
@@ -45,15 +54,11 @@ function App() {
     return <CompareQuotations userName={userName ?? 'Procurement User'} onLogout={handleLogout} onBack={() => navigate('/upload')} onProceed={() => navigate('/procure-ai')} />
   }
 
-  if (path === '/procure-ai') {
-    return <Analytics onBack={() => navigate('/upload')} />
-  }
-
   if (path !== '/login') {
-    window.history.replaceState({}, '', '/login')
+    window.history.replaceState({}, '', '/procure-ai')
   }
 
-  return <Login onLogin={handleLogin} />
+  return path === '/login' ? <Login onLogin={handleLogin} /> : <Analytics onBack={() => navigate('/login')} />
 }
 
 export default App
