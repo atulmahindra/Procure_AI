@@ -30,3 +30,12 @@ If you are developing a production application, we recommend enabling type-aware
 ```
 
 See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+
+## Backend connection (Quotation Ranking API)
+The upload page (Page 2) sends the PDFs to the backend and Page 3 is rendered entirely from its response.
+
+1. Local, one command: run `run.bat` in the parent folder (backend serves the built app from `dist/`).
+   Live editing: copy `.env.example` to `.env.local` (`VITE_API_URL=http://localhost:8000`), run the backend, then `npm run dev`.
+2. Vercel: Settings → Environment Variables → `VITE_API_URL` = your Render backend URL (no trailing `/`) → Redeploy.
+
+Files involved: `src/modules/after-login/quotationApi.ts` (API calls + types), `Upload.tsx`, `CompareQuotations.tsx`.

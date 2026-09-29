@@ -1,7 +1,9 @@
+import { Fragment, useState } from 'react'
 import { AuthenticatedHeader } from '../shared/AuthenticatedHeader'
 import arrowUpRightIcon from '../../assets/arrow-up-right-from-square.png'
 import downloadIcon from '../../assets/download.png'
 import sparklesIcon from '../../assets/sparkles.png'
+import { loadResult } from './quotationApi'
 import './CompareQuotations.scss'
 
 type CompareQuotationsProps = {
@@ -11,26 +13,99 @@ type CompareQuotationsProps = {
   onProceed: () => void
 }
 
-const suppliers = [
-  { rank: '01', name: 'Apex Industrial', score: '94.6', total: '₹18.20L', delivery: '14 days', terms: 'Net 45', compliance: '98%', risk: 'Low', tone: 'recommended' },
-  { rank: '02', name: 'Zenith Controls', score: '86.7', total: '₹19.50L', delivery: '10 days', terms: 'Net 30', compliance: '89%', risk: 'Medium', tone: 'standard' },
-  { rank: '03', name: 'Vortex Equipments', score: '80.1', total: '₹17.80L', delivery: '21 days', terms: '50% advance', compliance: '92%', risk: 'Medium', tone: 'standard' },
-]
+const VERIFICATION: Record<string, string> = {
+  verified: 'Verified (figures, words and line items agree)',
+  stated_only: 'Taken from the printed total',
+  stated_line_items_differ: 'Printed total used – differs from line items',
+  computed_from_line_items: 'Computed from line items (no total printed)',
+}
 
-export function CompareQuotations({ userName, onLogout, onProceed }: CompareQuotationsProps) {
+export function CompareQuotations({ userName, onLogout, onBack, onProceed }: CompareQuotationsProps) {
+  const [data] = useState(loadResult)
+  const [openRow, setOpenRow] = useState<string | null>(null)
+  const [showMethod, setShowMethod] = useState(false)
+  const [shareNote, setShareNote] = useState('')
+
+  if (!data) {
+    return (
+      <main className="compare-page">
+        <AuthenticatedHeader userName={userName} onLogout={onLogout} />
+        <section className="compare-content">
+          <section className="recommendation-card"><div className="recommendation-copy"><h2>No comparison yet</h2><p>Upload the supplier quotations to see the AI recommendation.</p></div><button className="review-button" onClick={onBack}>Upload quotations</button></section>
+        </section>
+      </main>
+    )
+  }
+
+  const rec = data.recommendation
+  const savings = rec.projected_savings
+
+  async function share() {
+    const lines = [rec.title, rec.summary, '', ...data!.suppliers.map((s) => `${s.rank} ${s.supplier_name} · AI score ${s.ai_score} · ${s.total_cost_display} · ${s.delivery_display}`)]
+    try {
+      await navigator.clipboard.writeText(lines.join('\n'))
+      setShareNote('Summary copied')
+    } catch {
+      setShareNote('Copy not available')
+    }
+    setTimeout(() => setShareNote(''), 2500)
+  }
+
   return (
     <main className="compare-page">
       <AuthenticatedHeader userName={userName} onLogout={onLogout} />
       <section className="compare-content">
-        <div className="compare-topline"><nav className="upload-steps" aria-label="Quotation workflow"><div className="upload-step done"><span>1</span><strong>Sign in</strong></div><i /><div className="upload-step done"><span>2</span><strong>Upload quotations</strong></div><i /><div className="upload-step active"><span>3</span><strong>AI recommendation</strong></div></nav><div className="analysis-complete"><span>✓</span> Analysis complete</div></div>
-        <div className="compare-meta"><p className="eyebrow">RFQ-2026-A · 3 quotations compared</p></div>
-        <div className="compare-intro"><div><h1>AI recommendation for the Procurement Team</h1></div><div className="intro-actions">
-          {/* <button className="back-button" onClick={onBack}>← Back to upload</button> */}
-          <button className="outline-action"><img src={downloadIcon} alt="" />Export report</button><button className="outline-action"><img src={arrowUpRightIcon} alt="" />Share</button></div></div>
-        <section className="recommendation-card"><span className="insight-icon"><img src={sparklesIcon} alt="" /></span><div className="recommendation-copy"><div><span className="recommendation-label">Best overall value</span><span className="confidence-label">94% confidence</span></div><h2>Proceed with Apex Industrial</h2><p>Apex offers the strongest balance of total cost, technical compliance, payment flexibility and supplier risk. Its quote is not the lowest, but the faster delivery and stronger terms create the best risk-adjusted value.</p></div><div className="savings"><span>Projected savings</span><strong>₹3.30L</strong><small>6.7% vs. next best</small></div></section>
-        <div className="ranked-heading"><h2>Ranked supplier options</h2><span>Cost 35% · Compliance 25% · Delivery 20% · Terms 10% · Risk 10%</span></div>
-        <section className="ranking-table"><div className="ranking-row ranking-header"><span>Rank / supplier</span><span>AI score</span><span>Total cost</span><span>Delivery</span><span>Payment terms</span><span>Compliance</span><span>Risk</span><span /></div>{suppliers.map((supplier) => <div className={`ranking-row ${supplier.tone}`} key={supplier.name}><div className="rank-supplier"><strong>{supplier.rank}</strong><b>{supplier.name}</b>{supplier.tone === 'recommended' && <small>RECOMMENDED</small>}</div><span>{supplier.score}</span><span>{supplier.total}</span><span>{supplier.delivery}</span><span>{supplier.terms}</span><span>{supplier.compliance}</span><span className={supplier.risk === 'Low' ? 'low-risk' : ''}>{supplier.risk}</span><button className="review-button">Review details</button></div>)}</section>
-        <div className="decision-grid"><section className="decision-card"><h2>Why Apex ranks first</h2><p>• 98% technical compliance with no critical exceptions</p><p>• Net 45 terms improve working capital</p><p>• Low delivery and supplier-performance risk</p></section><section className="decision-card"><h2>Confidence &amp; transparency</h2><p>94% confidence based on 27 normalized fields. Two delivery assumptions were inferred and should be confirmed.</p><button>View scoring methodology →</button></section><section className="proceed-card"><h2>Ready to move forward?</h2><p>Create the approval package with Apex&apos;s quotation and full audit trail.</p><button onClick={onProceed}>→ &nbsp; Proceed with Apex</button></section></div>
+        <div className="compare-topline"><nav className="upload-steps" aria-label="Quotation workflow"><div className="upload-step done"><span>1</span><strong>Sign in</strong></div><i /><div className="upload-step done"><span>2</span><strong>Upload quotations</strong></div><i /><div className="upload-step active"><span>3</span><strong>AI recommendation</strong></div></nav><div className="analysis-complete"><span>✓</span> {data.header.status}</div></div>
+        <div className="compare-meta"><p className="eyebrow">{data.header.subtitle}</p>{data.pr_number && <p className="pr-number-display"><span>PR Number</span><strong>{data.pr_number}</strong></p>}</div>
+        <div className="compare-intro"><div><h1>AI recommendation</h1></div><div className="intro-actions">
+          <button className="outline-action" onClick={() => window.print()}><img src={downloadIcon} alt="" />Export report</button><button className="outline-action" onClick={share}><img src={arrowUpRightIcon} alt="" />{shareNote || 'Share'}</button></div></div>
+
+        {data.rejected_files.length > 0 && (
+          <p className="compare-warning" role="alert">Not included: {data.rejected_files.map((r) => `${r.file_name} – ${r.message}`).join('; ')}</p>
+        )}
+
+        <section className="recommendation-card"><span className="insight-icon"><img src={sparklesIcon} alt="" /></span><div className="recommendation-copy"><div><span className="recommendation-label">{rec.badge}</span><span className="confidence-label">{rec.confidence_display}</span></div><h2>{rec.title}</h2><p>{rec.summary}</p></div>
+          {savings && <div className={`savings ${savings.label === 'ADDITIONAL COST' ? 'extra-cost' : ''}`}><span>{savings.label}</span><strong>{savings.display}</strong><small>{savings.text}</small></div>}
+        </section>
+
+        <div className="ranked-heading"><h2>Ranked supplier options</h2><span>{data.weights_display}</span></div>
+        <section className="ranking-table">
+          <div className="ranking-row ranking-header"><span>Rank / supplier</span><span>AI score</span><span>Total cost</span><span>Delivery</span><span>Rank</span><span /></div>
+          {data.suppliers.map((s) => {
+            const key = s.details.source_file
+            const open = openRow === key
+            return (
+              <Fragment key={key}>
+                <div className={`ranking-row ${s.recommended ? 'recommended' : 'standard'}`}>
+                  <div className="rank-supplier"><strong>{s.position_display}</strong><b>{s.supplier_name}</b>{s.recommended && <small>RECOMMENDED</small>}</div>
+                  <span>{s.ai_score}</span><span>{s.total_cost_display}</span><span>{s.delivery_display}</span>
+                  <span className={s.rank === 'L1' ? 'low-risk' : ''}>{s.rank}</span>
+                  <button className="review-button" onClick={() => setOpenRow(open ? null : key)}>{open ? 'Hide details' : 'Review details'}</button>
+                </div>
+                {open && (
+                  <div className="ranking-details">
+                    <div><small>Quotation no.</small><b>{s.details.quotation_number ?? '—'}</b></div>
+                    <div><small>Quotation date</small><b>{s.details.quotation_date ?? '—'}</b></div>
+                    <div><small>Delivery term (as quoted)</small><b>{s.details.delivery_term ?? 'Not stated'}</b></div>
+                    <div><small>Price score / Delivery score</small><b>{s.details.price_score} / {s.details.delivery_score}</b></div>
+                    <div><small>Total price check</small><b>{VERIFICATION[s.details.total_verification] ?? s.details.total_verification}</b></div>
+                    <div><small>Source file</small><b>{s.details.source_file} · {s.details.read_by}</b></div>
+                    {s.details.warnings.length > 0 && <p className="details-warnings">⚠ {s.details.warnings.join(' · ')}</p>}
+                  </div>
+                )}
+              </Fragment>
+            )
+          })}
+        </section>
+
+        <div className="decision-grid">
+          <section className="decision-card"><h2>{data.why_first.title}</h2>{data.why_first.points.map((p) => <p key={p}>• {p}</p>)}</section>
+          <section className="decision-card"><h2>{data.transparency.title}</h2><p>{data.transparency.text}</p>
+            <button onClick={() => setShowMethod((v) => !v)}>{showMethod ? 'Hide scoring methodology ↑' : 'View scoring methodology →'}</button>
+            {showMethod && data.transparency.methodology.map((m) => <p key={m} className="method-line">• {m}</p>)}
+          </section>
+          <section className="proceed-card"><h2>{data.next_step.title}</h2><p>{data.next_step.text}</p><button onClick={onProceed}>→ &nbsp; {data.next_step.button_label}</button></section>
+        </div>
       </section>
     </main>
   )
