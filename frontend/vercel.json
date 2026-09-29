@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://gdp-automation-app-mn7d.vercel.app/api/:path*"
+    }
+  ]
+}
