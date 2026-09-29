@@ -29,6 +29,33 @@ export const DeviationSeverity = Object.freeze({
   CRITICAL: "critical",
 });
 
+const DEMO_SHIPMENTS = [
+  {
+    shipmentId: "SHP-DEMO0001",
+    productName: "Demo Cold-Chain Vaccine",
+    batchNumber: "DEMO-2026-001",
+    origin: "Copenhagen Distribution Center",
+    destination: "Aarhus Regional Clinic",
+    tempRangeC: [2, 8],
+  },
+  {
+    shipmentId: "SHP-DEMO0002",
+    productName: "Demo Insulin",
+    batchNumber: "DEMO-2026-002",
+    origin: "Berlin Distribution Hub",
+    destination: "Hamburg Medical Center",
+    tempRangeC: [2, 8],
+  },
+  {
+    shipmentId: "SHP-DEMO0003",
+    productName: "Demo Biologic Therapy",
+    batchNumber: "DEMO-2026-003",
+    origin: "Amsterdam Pharma Warehouse",
+    destination: "Rotterdam University Hospital",
+    tempRangeC: [2, 8],
+  },
+];
+
 function classifySeverity(excursionMagnitude) {
   if (excursionMagnitude <= 1.0) return DeviationSeverity.MINOR;
   if (excursionMagnitude <= 5.0) return DeviationSeverity.MAJOR;
@@ -39,6 +66,20 @@ export class GDPComplianceEngine {
   constructor() {
     /** @type {Map<string, object>} */
     this.shipments = new Map();
+
+    for (const demo of DEMO_SHIPMENTS) {
+      const shipment = {
+        ...demo,
+        tempRangeC: [...demo.tempRangeC],
+        status: ShipmentStatus.IN_TRANSIT,
+        readings: [],
+        deviations: [],
+        auditTrail: [],
+        createdAt: new Date().toISOString(),
+      };
+      this._logAudit(shipment, "demo_seed", "SHIPMENT_CREATED", `Seeded demo batch ${demo.batchNumber}`);
+      this.shipments.set(shipment.shipmentId, shipment);
+    }
   }
 
   // ---- Shipment lifecycle -------------------------------------------------
