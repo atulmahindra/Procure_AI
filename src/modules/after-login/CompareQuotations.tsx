@@ -70,7 +70,7 @@ export function CompareQuotations({ userName, onLogout, onBack, onProceed }: Com
 
         <div className="ranked-heading"><h2>Ranked supplier options</h2><span>{data.weights_display}</span></div>
         <section className="ranking-table">
-          <div className="ranking-row ranking-header"><span>Rank / supplier</span><span>AI score</span><span>Total cost</span><span>Delivery</span><span>Rank</span><span /></div>
+          <div className="ranking-row ranking-header"><span>Rank / supplier</span><span>PR Number</span><span>AI score</span><span>Total cost</span><span>Delivery</span><span>Rank</span><span /></div>
           {data.suppliers.map((s) => {
             const key = s.details.source_file
             const open = openRow === key
@@ -78,7 +78,7 @@ export function CompareQuotations({ userName, onLogout, onBack, onProceed }: Com
               <Fragment key={key}>
                 <div className={`ranking-row ${s.recommended ? 'recommended' : 'standard'}`}>
                   <div className="rank-supplier"><strong>{s.position_display}</strong><b>{s.supplier_name}</b>{s.recommended && <small>RECOMMENDED</small>}</div>
-                  <span>{s.ai_score}</span><span>{s.total_cost_display}</span><span>{s.delivery_display}</span>
+                  <span>{data.pr_number || '—'}</span><span>{s.ai_score}</span><span>{s.total_cost_display}</span><span>{s.delivery_display}</span>
                   <span className={s.rank === 'L1' ? 'low-risk' : ''}>{s.rank}</span>
                   <button className="review-button" onClick={() => setOpenRow(open ? null : key)}>{open ? 'Hide details' : 'Review details'}</button>
                 </div>
