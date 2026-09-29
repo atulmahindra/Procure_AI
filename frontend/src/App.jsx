@@ -11,6 +11,11 @@ export default function App() {
   const refresh = async () => {
     const list = await api.listShipments();
     setShipments(list);
+    setSelectedId((currentId) =>
+      list.some((shipment) => shipment.shipmentId === currentId)
+        ? currentId
+        : list[0]?.shipmentId ?? null
+    );
   };
 
   useEffect(() => {
