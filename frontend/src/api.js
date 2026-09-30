@@ -1,4 +1,4 @@
-const BASE = (import.meta.env.VITE_API_BASE_URL || "https://gdp-automation-app-mn7d.vercel.app/api").replace(/\/+$/, "");
+const BASE = (import.meta.env.VITE_API_BASE_URL || (import.meta.env.DEV ? "/api" : "https://gdp-automation-app-mn7d.vercel.app/api")).replace(/\/+$/, "");
 
 async function request(path, options = {}) {
   const res = await fetch(`${BASE}${path}`, {
