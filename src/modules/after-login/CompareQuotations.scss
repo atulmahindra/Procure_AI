@@ -22,3 +22,17 @@
 @media (max-width: 760px) { .ranking-table { overflow-x: auto; } .ranking-details { grid-template-columns: 1fr 1fr; padding-left: 16px; } }
 @media print { .intro-actions, .review-button, .proceed-card button, .decision-card button { display: none !important; } .compare-page { background: #fff; } }
 .ranking-row { min-width: 800px; grid-template-columns: 2.2fr 1fr .85fr .95fr .95fr .7fr 1.15fr; }
+.ranking-actions { display: flex; align-items: center; gap: 8px; }
+.ranking-actions input { width: 18px; height: 18px; margin: 0; accent-color: #ed1b3a; cursor: pointer; }
+.ranking-row.selected { background: #eff6ff; }
+.ranking-row.recommended:not(.selected) { background: #fff; }
+.selection-comments { display: grid; gap: 10px; margin-top: 18px; border: 1px solid #e0e6f0; border-radius: 9px; padding: 18px; background: #fff; }
+.selection-comments h2 { margin: 0; color: #303744; font-size: 1rem; }
+.selection-comments h2 span, .selection-requirement { color: #b54761; }
+.selection-comments > p { margin: 0; color: #637087; font-size: .75rem; line-height: 1.5; }
+.selection-comments textarea { width: 100%; min-height: 110px; border: 1px solid #cbd8e7; border-radius: 7px; padding: 12px; color: #293142; background: #fff; font: inherit; font-size: .8125rem; resize: vertical; }
+.selection-comments textarea::placeholder { color: #7c899f; }
+.selection-comments textarea:focus { outline: 2px solid #ed1b3a; outline-offset: 1px; }
+.selection-comments .selection-requirement { color: #b54761; }
+.proceed-card button:disabled { background: #aab2c0; cursor: not-allowed; }
+@media (min-width: 761px) { .selection-comments h2 { font-size: 1.125rem; }.selection-comments > p { font-size: .8125rem; }.selection-comments textarea { font-size: .875rem; } }

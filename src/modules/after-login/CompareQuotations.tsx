@@ -23,6 +23,10 @@ const VERIFICATION: Record<string, string> = {
 export function CompareQuotations({ userName, onLogout, onBack, onProceed }: CompareQuotationsProps) {
   const [data] = useState(loadResult)
   const [openRow, setOpenRow] = useState<string | null>(null)
+  const [selectedSupplierKey, setSelectedSupplierKey] = useState<string | null>(
+    () => data?.suppliers.find((supplier) => supplier.rank === 'L1')?.details.source_file ?? null,
+  )
+  const [selectionComment, setSelectionComment] = useState('')
   const [showMethod, setShowMethod] = useState(false)
   const [shareNote, setShareNote] = useState('')
 
@@ -39,6 +43,7 @@ export function CompareQuotations({ userName, onLogout, onBack, onProceed }: Com
 
   const rec = data.recommendation
   const savings = rec.projected_savings
+  const selectedSupplier = data.suppliers.find((supplier) => supplier.details.source_file === selectedSupplierKey)
 
   async function share() {
     const lines = [rec.title, rec.summary, '', ...data!.suppliers.map((s) => `${s.rank} ${s.supplier_name} · AI score ${s.ai_score} · ${s.total_cost_display} · ${s.delivery_display}`)]
@@ -70,17 +75,28 @@ export function CompareQuotations({ userName, onLogout, onBack, onProceed }: Com
 
         <div className="ranked-heading"><h2>Ranked supplier options</h2><span>{data.weights_display}</span></div>
         <section className="ranking-table">
-          <div className="ranking-row ranking-header"><span>Rank / supplier</span><span>PR Number</span><span>AI score</span><span>Total cost</span><span>Delivery</span><span>Rank</span><span /></div>
+          <div className="ranking-row ranking-header"><span>Rank / supplier</span><span>PR Number</span><span>AI score</span><span>Total cost</span><span>Delivery</span><span>Rank</span><span>Select / review</span></div>
           {data.suppliers.map((s) => {
             const key = s.details.source_file
             const open = openRow === key
             return (
               <Fragment key={key}>
-                <div className={`ranking-row ${s.recommended ? 'recommended' : 'standard'}`}>
+                <div className={`ranking-row ${s.recommended ? 'recommended' : 'standard'} ${selectedSupplierKey === key ? 'selected' : ''}`}>
                   <div className="rank-supplier"><strong>{s.position_display}</strong><b>{s.supplier_name}</b>{s.recommended && <small>RECOMMENDED</small>}</div>
                   <span>{data.pr_number || '—'}</span><span>{s.ai_score}</span><span>{s.total_cost_display}</span><span>{s.delivery_display}</span>
                   <span className={s.rank === 'L1' ? 'low-risk' : ''}>{s.rank}</span>
-                  <button className="review-button" onClick={() => setOpenRow(open ? null : key)}>{open ? 'Hide details' : 'Review details'}</button>
+                  <div className="ranking-actions">
+                    <input
+                      type="checkbox"
+                      checked={selectedSupplierKey === key}
+                      onChange={() => {
+                        setSelectedSupplierKey(selectedSupplierKey === key ? null : key)
+                        setSelectionComment('')
+                      }}
+                      aria-label={`Select ${s.supplier_name}`}
+                    />
+                    <button className="review-button" onClick={() => setOpenRow(open ? null : key)}>{open ? 'Hide details' : 'Review'}</button>
+                  </div>
                 </div>
                 {open && (
                   <div className="ranking-details">
@@ -98,13 +114,37 @@ export function CompareQuotations({ userName, onLogout, onBack, onProceed }: Com
           })}
         </section>
 
+        <section className="selection-comments" aria-labelledby="selection-comments-title">
+          <h2 id="selection-comments-title">Comments <span aria-hidden="true">*</span></h2>
+          <p>
+            {selectedSupplier
+              ? `Explain why you selected ${selectedSupplier.supplier_name}.`
+              : 'Select one supplier above. Comments are required to explain your selection.'}
+          </p>
+          <textarea
+            value={selectionComment}
+            onChange={(event) => setSelectionComment(event.target.value)}
+            placeholder={selectedSupplier
+              ? `Add comments explaining why you selected ${selectedSupplier.supplier_name}...`
+              : 'Select a supplier above, then add comments explaining your selection...'}
+            aria-label="Comments explaining supplier selection"
+            aria-required="true"
+            required
+          />
+          {(!selectedSupplierKey || !selectionComment.trim()) && (
+            <p className="selection-requirement" role="status">
+              Required: select one supplier and add comments to enable Proceed.
+            </p>
+          )}
+        </section>
+
         <div className="decision-grid">
           <section className="decision-card"><h2>{data.why_first.title}</h2>{data.why_first.points.map((p) => <p key={p}>• {p}</p>)}</section>
           <section className="decision-card"><h2>{data.transparency.title}</h2><p>{data.transparency.text}</p>
             <button onClick={() => setShowMethod((v) => !v)}>{showMethod ? 'Hide scoring methodology ↑' : 'View scoring methodology →'}</button>
             {showMethod && data.transparency.methodology.map((m) => <p key={m} className="method-line">• {m}</p>)}
           </section>
-          <section className="proceed-card"><h2>{data.next_step.title}</h2><p>{data.next_step.text}</p><button onClick={onProceed}>→ &nbsp; {data.next_step.button_label}</button></section>
+          <section className="proceed-card"><h2>{data.next_step.title}</h2><p>{data.next_step.text}</p><button onClick={onProceed} disabled={!selectedSupplierKey || !selectionComment.trim()}>→ &nbsp; {selectedSupplier ? `Proceed with ${selectedSupplier.supplier_name}` : data.next_step.button_label}</button></section>
         </div>
       </section>
     </main>

@@ -20,6 +20,7 @@ export type SupplierRow = {
   delivery_days: number | null
   delivery_display: string
   rank: string
+  rank_change_reason?: string
   details: {
     name_as_printed: string
     quotation_number: string | null
